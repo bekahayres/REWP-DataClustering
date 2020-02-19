@@ -53,7 +53,8 @@ def cluster(points, iterations=10):
 
     for cluster_num in range(k):
         points_in_cluster=[point for j, point in enumerate(points) if cluster_num_allocations[j] == cluster_num]
-        print("Cluster " + str(cluster_num) + " is centred at " + str(cluster_centers[cluster_num ]) + " and has " + str(len(points_in_cluster)) + " points.")
+        print(f"Cluster {str(cluster_num)} is centred at {str(cluster_centers[cluster_num ])} and has {str(len(points_in_cluster))} points.")
+
 
 
 points = get_points_from_file('data/samples.csv')
