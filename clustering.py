@@ -8,10 +8,7 @@ def get_points_from_file(file):
         one for each point
     '''
     lines = open(file, 'r').readlines()
-    points=[]
-    for line in lines:
-        points.append(tuple(map(float, line.strip().split(','))))
-    return points
+    return [tuple(map(float, line.strip().split(','))) for line in lines]
 
 def mean_point(pts):
     '''
