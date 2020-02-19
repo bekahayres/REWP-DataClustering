@@ -1,13 +1,13 @@
 from math import *
 from random import *
-
+import argparse
 
 def get_points_from_file(file):
     '''
         Reads a csv file containing points and returns a list of tuples,
         one for each point
     '''
-    lines = open(file, 'r').readlines()
+    lines = open('data/' + file, 'r').readlines()
     return [tuple(map(float, line.strip().split(','))) for line in lines]
 
 def mean_point(pts):
@@ -29,10 +29,9 @@ def distance_between_points(pt1, pt2):
 
 def cluster(points, iterations=10):
     '''
-        Takes a list of points and performs clustering on them, then 
+        Takes a list of points and performs k-means clustering on them (k=3), then 
         prints out the cluster centers and number of points in each cluster
     '''
-
     k=3
     cluster_centers=[points[randrange(len(points))], points[randrange(len(points))], points[randrange(len(points))]]
     cluster_num_allocations=[None]*len(points)
@@ -56,6 +55,20 @@ def cluster(points, iterations=10):
         print(f"Cluster {str(cluster_num)} is centred at {str(cluster_centers[cluster_num ])} and has {str(len(points_in_cluster))} points.")
 
 
+if __name__ == '__main__':
+    # Parse arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('points_file', help='A csv file defining the points')
+    parser.add_argument('--iters', action="store", help='Number of iterations to run k-means clustering')
+    args = parser.parse_args()
 
-points = get_points_from_file('data/samples.csv')
-cluster(points)
+    # Read in points from file
+    points_file = args.points_file
+    points = get_points_from_file(points_file)
+
+    # Run clustering
+    iterations = args.iters
+    if iterations:
+        cluster(points, int(iterations))
+    else:
+        cluster(points)
