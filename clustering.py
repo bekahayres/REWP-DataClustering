@@ -46,8 +46,11 @@ def cluster(points, iterations=10):
             cluster_num_allocations[point_index] = distances_to_clusters.index(min(distances_to_clusters))
         for cluster_num in range(k):
             points_in_cluster=[point for j, point in enumerate(points) if cluster_num_allocations[j] == cluster_num]
-            new_mean = mean_point(points_in_cluster)
-            cluster_centers[cluster_num]=new_mean
+
+            # If no points in cluster do not change the cluster center
+            if len(points_in_cluster) > 0:
+                new_mean = mean_point(points_in_cluster)
+                cluster_centers[cluster_num] = new_mean
 
 
     for cluster_num in range(k):
@@ -58,7 +61,7 @@ def cluster(points, iterations=10):
 if __name__ == '__main__':
     # Parse arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('points_file', help='A csv file defining the points')
+    parser.add_argument('points_file', help='A csv file defining a list of x and y coordinates of points')
     parser.add_argument('--iters', action="store", help='Number of iterations to run k-means clustering')
     args = parser.parse_args()
 
